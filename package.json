@@ -1,0 +1,30 @@
+{
+  "name": "serverless-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "invoke:getEmployer": "sls invoke local -f getEmployer",
+    "invoke:postEmployer": "sls invoke local -f postEmployer",
+    "invoke:patchEmployer": "sls invoke local -f patchEmployer",
+    "invoke:deleteEmployer": "sls invoke local -f deleteEmployer",
+    "deploy": "sls deploy --stage dev --verbose",
+    "invoke:offline": "sls offline start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mrthnx/serverless-challenge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mrthnx/serverless-challenge/issues"
+  },
+  "homepage": "https://github.com/Mrthnx/serverless-challenge#readme",
+  "dependencies": {
+    "joi": "17.9.2",
+    "pg": "8.11.0",
+    "sequelize": "6.32.0"
+  }
+}
