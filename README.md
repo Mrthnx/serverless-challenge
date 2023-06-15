@@ -12,10 +12,10 @@ https://www.serverless.com/framework/docs/providers/aws/guide/credentials/
 ---
 ## configurar variables de entorno para la BD
 `export POSTGRES_DB_NAME=db_serverless `    
-`export POSTGRES_DB_HOST=100.26.195.248  `  
+`export POSTGRES_DB_HOST=<host-ip>  `  
 `export POSTGRES_DB_PORT=5432  `  
 `export POSTGRES_DB_USERNAME=postgres  `  
-`export POSTGRES_DB_PASSWORD=6RMiOm9neEcGjhz  `
+`export POSTGRES_DB_PASSWORD=<password>  `
 
 ---
 ## creacion de base de datos
