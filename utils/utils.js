@@ -35,23 +35,27 @@ const responseGeneral = (statusCode, data, message) => {
 }
 
 const responseErrorValidation = (error) => {
-    return {
-        statusCode: 400,
-        body: JSON.stringify({
-            data: null,
-            message: error.details[0].message
-        })
-    };
+    return responseGeneral( 400, null, error.details[0].message );
+}
+
+const responseError = (message) => {
+  return responseGeneral( 400, null, message );
+}
+
+const responseNotFound = (message='Registro no encontrado') => {
+    return responseGeneral( 404, null, message );
 }
 
 const responseErrorServerInternal = () => {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        data: null,
-        message: "Error interno del servidor"
-      })
-    };
+    return responseGeneral(500, null, 'Error interno del servidor');
+}
+
+const responseSuccess = (data='', message='') => {
+  return responseGeneral(200, data, message);
+}
+
+const isArrayEmptyOrNull = (array) => {
+  return !Array.isArray(array) || array.length === 0;
 }
 
 
@@ -60,5 +64,9 @@ module.exports = {
     buildFilterEmployerFind, 
     responseErrorServerInternal ,
     responseErrorValidation,
-    responseGeneral
+    responseGeneral,
+    responseNotFound,
+    responseSuccess,
+    responseError,
+    isArrayEmptyOrNull
 }

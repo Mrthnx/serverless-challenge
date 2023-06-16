@@ -2,7 +2,15 @@
 
 const { Employer } = require('./entities/employer');
 const { employerUpdateValidate, employerCreateValidate } = require('./validation/employer')
-const { getParamIdOfEvent, buildFilterEmployerFind, responseErrorServerInternal, responseGeneral } = require('./utils/utils');
+const { 
+  getParamIdOfEvent, 
+  buildFilterEmployerFind, 
+  responseErrorServerInternal, 
+  responseNotFound, 
+  responseSuccess, 
+  responseError,
+  isArrayEmptyOrNull 
+} = require('./utils/utils');
 
 module.exports.getEmployer = async (event) => {
   try {
@@ -11,11 +19,12 @@ module.exports.getEmployer = async (event) => {
     const filterEmployer = buildFilterEmployerFind( employerId );
 
     const employers = await Employer.findAll(filterEmployer);
-    console.log(employers.length)
-    return responseGeneral(
-      employers.length!=0?200:404, 
-      employers, 
-      employers.length!=0?"":"Registro no encontrado");
+    
+    if( isArrayEmptyOrNull( employers ) ) {
+      return responseNotFound();
+    }else {
+      return responseSuccess( employers );
+    }
 
   } catch (error) {
     console.error('Error:', error);
@@ -34,12 +43,12 @@ module.exports.postEmployer = async (event) => {
     }
 
     const response = await Employer.create( bodyEmployer );
-    
-    return responseGeneral(
-      response!=0?200:400,
-      null,
-      response!=0?"Registro creado":"Error al creado registro"
-    );
+
+    if( response != 0 ) {
+      return responseSuccess(_, 'Registro creado');
+    }else {
+      return responseError('Error al crear registro');
+    }
 
   } catch (error) {
     console.error('Error:', error);
@@ -63,11 +72,11 @@ module.exports.patchEmployer = async (event) => {
       where: {id: bodyEmployer.id, estado: true}
     } );
 
-    return responseGeneral(
-      response!=0?200:400,
-      null,
-      response!=0?"Registro actualizado":"Error al actualizar registro"
-    );
+    if( response != 0 ) {
+      return responseSuccess(_, 'Registro actualizado');
+    }else {
+      return responseError('Error al actualizar registro');
+    }
     
   } catch (error) {
     console.error('Error:', error);
@@ -85,11 +94,11 @@ module.exports.deleteEmployer = async (event) => {
       where: {id: employerId, estado: true}
     });
 
-    return responseGeneral( 
-      response!=0?200:404,
-      null,
-      response!=0?"Registro eliminado":"No se encontro registro"
-    );
+    if( response != 0 ) {
+      return responseSuccess(_, 'Registro eliminado');
+    }else {
+      return responseNotFound();
+    }
     
   } catch (error) {
     console.error('Error:', error);
